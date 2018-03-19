@@ -1,0 +1,37 @@
+body, div, span, header, footer, nav, section, aside, article, ol, ul, dl, dt, dd, li, a, p, h1, h2, h3, h4,h5, h6, i, b, textarea, button, input, select, figure, figcaption {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  font-style: normal;
+  text-decoration: none;
+  border: none;
+  box-sizing: border-box;
+  font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-font-smoothing: antialiased;
+  &:focus {
+      outline: none;
+  }
+}
+ol,ul,li{
+  list-style: none;
+}
+
+input[type="button"], input[type="submit"], input[type="search"], input[type="reset"] {
+    -webkit-appearance: none;
+}
+
+textarea { -webkit-appearance: none; }
+
+img {
+  vertical-align: top;
+}
+
+.clear-fix{
+  zoom: 1;
+  &::after{
+    content: '';
+    display: block;
+    clear: both;
+  }
+}
