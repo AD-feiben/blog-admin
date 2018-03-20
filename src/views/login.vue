@@ -27,16 +27,17 @@
             type="password" @keyup.native.enter="login">
           </el-input>
         </el-form-item>
-
         <el-button
           @click="login"
           type="primary"
           size="small"
           style="width: 100%;">登录</el-button>
+
+        <p class="register" @click="register">注册</p>
       </el-form>
     </div>
 
-    <el-dialog title="暂无用户存在, 请先注册！" :visible="showDialog" :show-close="false">
+    <el-dialog :title="dialogTitle" :visible="showDialog" :show-close="false">
 
       <el-form
         :model="newUser"
@@ -58,6 +59,7 @@
             v-model="newUser.pwd"
             size="small"
             placeholder="请输入密码"
+            :disabled="forbidPwd"
             type="password">
           </el-input>
         </el-form-item>
@@ -67,12 +69,13 @@
             v-model="newUser.repwd"
             size="small"
             placeholder="请输入确认密码"
+            :disabled="forbidPwd"
             type="password" @keyup.native.enter="registerUser">
           </el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <!-- <el-button @click="showDialog = false" size="small">取 消</el-button> -->
+        <el-button @click="showDialog = false" size="small">取 消</el-button>
         <el-button type="primary" @click="registerUser" size="small">确 定</el-button>
       </div>
     </el-dialog>
@@ -117,6 +120,8 @@ export default {
       }
     }
     return {
+      dialogTitle: '注册',
+      forbidPwd: false, // 禁止输入密码
       icons: [
         'fa-book',
         'fa-file-code',
@@ -167,6 +172,7 @@ export default {
           this.$axiosPosting(this.$api.login, this.user).then((res) => {
             if (res.code === 200) {
               window.sessionStorage.setItem('token', res.data.token)
+              window.sessionStorage.setItem('role', res.data.role)
               this.$router.replace('/')
             } else {
               this.$message({
@@ -174,6 +180,25 @@ export default {
                 type: 'error'
               })
             }
+          })
+        }
+      })
+    },
+    register () {
+      this.$axiosGeting(this.$api.user).then(res => {
+        if (res.code === 200) {
+          this.forbidPwd = false
+          this.showDialog = true // 允许注册管理员账号
+        } else if (res.code === 201) { // 可以注册普通账号
+          this.dialogTitle = '注册，密码为666666'
+          this.showDialog = true
+          this.newUser.pwd = 666666
+          this.newUser.repwd = 666666
+          this.forbidPwd = true
+        } else {
+          this.$message({
+            message: `已存在体验账号，账号：${res.data.account}，密码：666666`,
+            type: 'info'
           })
         }
       })
@@ -188,17 +213,11 @@ export default {
           this.$axiosPosting(this.$api.register, req).then(res => {
             this.$message({message: res.message, type: res.code === 200 ? 'success' : 'error'})
             this.showDialog = false
+            this.$refs.newUser.resetFields()
           })
         }
       })
     }
-  },
-  created () {
-    this.$axiosGeting(this.$api.user).then(res => {
-      if (res.code === 200) {
-        this.showDialog = true
-      }
-    })
   },
   mounted () {
     this.$nextTick(() => {
@@ -206,6 +225,7 @@ export default {
       new Parallax(this.$refs.bg)
       let icons = this.$refs.icon
       for (let i in icons) {
+        icons[i].style.display = 'inline-block'
         icons[i].style.top = this.random() + 'px'
         icons[i].style.left = this.random() + 'px'
       }
@@ -231,6 +251,13 @@ export default {
     }
     .el-dialog__body{
       padding: 30px 80px;
+    }
+    .register{
+      margin: 10px 0;
+      text-align: right;
+      font-size: 14px;
+      color: #606266;
+      cursor: pointer;
     }
     #bg{
       position: absolute;

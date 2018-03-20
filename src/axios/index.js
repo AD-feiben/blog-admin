@@ -12,7 +12,6 @@ const myAxios = axios.create({
 })
 
 myAxios.interceptors.request.use(config => {
-  // 这里写死一个token，你需要在这里取到你设置好的token的值
   const token = window.sessionStorage.getItem('token') || ''
   if (token) {
     // 这里将token设置到headers中，header的key是Authorization，这个key值根据你的需要进行修改即可
@@ -37,7 +36,8 @@ const XHR = ({ loading = false }) => {
   }
   // 公共参数
   const parameter = {
-    source: 'admin'
+    source: 'admin',
+    token: window.sessionStorage.getItem('token') || ''
   }
 
   // 无 loading 请求回调

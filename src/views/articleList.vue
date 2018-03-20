@@ -94,10 +94,12 @@
             <el-button
               :type="scope.row.state ? 'danger' : 'primary'"
               size="small"
+              :disabled="forbidInput"
               @click="changeState(scope.row)">{{buttonTexts[scope.row.state]}}</el-button>
             <el-button
               size="small"
               type="danger"
+              :disabled="forbidInput"
               @click="deleteArticle(scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -119,6 +121,7 @@
 export default {
   data () {
     return {
+      forbidInput: window.sessionStorage.getItem('role') === '0',
       states: ['草稿', '已发布'],
       buttonTexts: ['发布', '撤回'],
       articles: [],
@@ -137,10 +140,16 @@ export default {
         }
         this.$axiosPosting(this.$api.setState, req).then(res => {
           if (res.code === 200) {
-            this.$message.success(res.message)
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
             this.getData()
           } else {
-            this.$message.error(res.message)
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
           }
         })
       })
@@ -149,10 +158,16 @@ export default {
       this.$confirm('此操作将永久删除该文章, 是否继续?', '', {type: 'warning'}).then(() => {
         this.$axiosPosting(this.$api.deleteArticle, {id: article._id}).then(res => {
           if (res.code === 200) {
-            this.$message.success(res.message)
+            this.$message({
+              message: res.message,
+              type: 'success'
+            })
             this.getData()
           } else {
-            this.$message.error(res.message)
+            this.$message({
+              message: res.message,
+              type: 'error'
+            })
           }
         })
       })

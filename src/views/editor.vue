@@ -45,9 +45,9 @@
       <div class="preview" v-html="htmlContent" ref="preview"></div>
     </div>
     <div class="buttons">
-      <el-button type="success" size="small" @click="saveArticle(0)" v-if="!id">存草稿</el-button>
-      <el-button type="primary" size="small" @click="saveArticle(1)">{{saveText}}</el-button>
-      <el-button type="danger" size="small" @click="deleteArticle" v-if="id">删除</el-button>
+      <el-button type="success" size="small" @click="saveArticle(0)" v-if="!id" :disabled="forbidInput">存草稿</el-button>
+      <el-button type="primary" size="small" @click="saveArticle(1)" :disabled="forbidInput">{{saveText}}</el-button>
+      <el-button type="danger" size="small" @click="deleteArticle" v-if="id" :disabled="forbidInput">删除</el-button>
     </div>
   </div>
 </template>
@@ -107,6 +107,7 @@ export default {
       }
     }
     return {
+      forbidInput: window.sessionStorage.getItem('role') === '0',
       id: '', // 文章id
       classify: [], // 所有分类
       article: {

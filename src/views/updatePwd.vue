@@ -7,6 +7,7 @@
           placeholder="请输入旧密码"
           v-model="user.pwd"
           clearable
+          :disabled="forbidInput"
           type="password"></el-input>
       </el-form-item>
       <el-form-item label="新密码：" prop="newPwd">
@@ -15,6 +16,7 @@
           placeholder="请输入新密码"
           v-model="user.newPwd"
           clearable
+          :disabled="forbidInput"
           type="password"></el-input>
       </el-form-item>
       <el-form-item label="确认密码：" prop="reNewPwd">
@@ -23,10 +25,11 @@
           placeholder="请输入确认密码"
           v-model="user.reNewPwd"
           clearable
+          :disabled="forbidInput"
           type="password"></el-input>
       </el-form-item>
       <el-form-item style="text-align: right">
-        <el-button size="small" type="primary" @click="submit">确定</el-button>
+        <el-button size="small" type="primary" @click="submit" :disabled="forbidInput">确定</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -56,6 +59,7 @@ export default {
       }
     }
     return {
+      forbidInput: window.sessionStorage.getItem('role') === '0',
       user: {
         pwd: '', // 旧密码
         newPwd: '', // 新密码
