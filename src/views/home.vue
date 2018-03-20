@@ -8,7 +8,8 @@
     <el-container style="height: calc(100% - 80px);">
       <el-aside :style="{width: showRightArrow ? '0px' : '240px'}" ref="aside">
         <el-menu
-        :default-active="defaultActive">
+          unique-opened
+          :default-active="defaultActive">
           <el-submenu v-for="(item, index) in menu" :index="`${index}`" :key="index">
             <template slot="title">{{item.title}}</template>
             <el-menu-item
@@ -57,6 +58,15 @@ export default {
             {
               title: '编辑器',
               path: '/editor'
+            }
+          ]
+        },
+        {
+          title: '账号管理',
+          subMenu: [
+            {
+              title: '修改密码',
+              path: '/updatePwd'
             }
           ]
         }

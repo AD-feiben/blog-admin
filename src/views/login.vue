@@ -23,7 +23,7 @@
           <el-input
             size="small"
             v-model="user.pwd"
-            placeholder="请输入用户名"
+            placeholder="请输入密码"
             type="password" @keyup.native.enter="login">
           </el-input>
         </el-form-item>
@@ -111,7 +111,7 @@ export default {
       if (value === '') {
         cb(new Error('请输入确认密码'))
       } else if (value !== this.newUser.pwd) {
-        cb(new Error('两次输入密码不一致！'))
+        cb(new Error('两次密码不一致！'))
       } else {
         cb()
       }

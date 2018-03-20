@@ -9,6 +9,8 @@
             placeholder="请输入标题、分类、标签搜索"
             size="small"
             style="width: 220px;"
+            clearable
+            @clear="clearKeyword"
             @keyup.native.enter="getData">
           </el-input>
         </el-form-item>
@@ -37,7 +39,7 @@
           <template slot-scope="scope">
             <router-link
               class="ellipsis"
-              :to="{ path: '/editor', query: {id: scope.row._id} }"
+              :to="{ path: '/editor', query: {id: scope.row._id}}"
               :title="scope.row.title">
               {{scope.row.title}}
             </router-link>
@@ -159,12 +161,16 @@ export default {
       this.currentPage = page
       this.getData()
     },
+    clearKeyword () {
+      this.keyword = ''
+      this.getData()
+    },
     getData () {
       let req = {
         keyword: this.keyword,
-        page: this.currentPage,
-        pageSize: this.pageSize
+        page: this.currentPage
       }
+      this.$router.replace({path: '/articleList', query: {...req}})
       this.$axiosGeting(this.$api.article, req).then(res => {
         if (res.code === 200) {
           this.articles = res.data.articles
@@ -176,6 +182,8 @@ export default {
     }
   },
   created () {
+    this.keyword = this.$route.query.keyword || ''
+    this.page = +this.$route.query.page || 1
     this.getData()
   }
 }

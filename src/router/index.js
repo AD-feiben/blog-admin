@@ -25,6 +25,11 @@ const router = new Router({
           path: 'editor',
           name: 'editor',
           component: resolve => { require(['@/views/editor'], resolve) }
+        },
+        {
+          path: 'updatePwd',
+          name: 'updatePwd',
+          component: resolve => { require(['@/views/updatePwd'], resolve) }
         }
       ]
     }

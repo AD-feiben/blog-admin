@@ -8,7 +8,8 @@ const api = {
   deleteArticle: '/deleteArticle', // 删除文章
   user: '/user', // 查询是否存在用户
   register: '/register', // 注册用户
-  login: '/login' // 登录
+  login: '/login', // 登录
+  updatePwd: '/updatePwd' // 修改密码
 }
 
 Vue.prototype.$api = api

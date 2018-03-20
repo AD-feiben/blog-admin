@@ -2,7 +2,7 @@
   <div id="tag">
     <el-tag
       v-for="(tag, index) in t_tags"
-      :key="tag"
+      :key="index"
       closable
       @close="handleClose(index)">
       {{tag}}
