@@ -190,7 +190,7 @@ export default {
           this.forbidPwd = false
           this.showDialog = true // 允许注册管理员账号
         } else if (res.code === 201) { // 可以注册普通账号
-          this.dialogTitle = '注册，密码为666666'
+          this.dialogTitle = '注册体验账号，密码为666666'
           this.showDialog = true
           this.newUser.pwd = 666666
           this.newUser.repwd = 666666
