@@ -80,7 +80,7 @@
       </div>
     </el-dialog>
 
-    <div id="bg" ref="bg">
+    <div id="bg" ref="bg" v-if="showBg">
       <i
         class="fas"
         v-for="(item, index) in icons"
@@ -120,6 +120,7 @@ export default {
       }
     }
     return {
+      showBg: document.body.clientWidth >= 450,
       dialogTitle: '注册',
       forbidPwd: false, // 禁止输入密码
       icons: [
@@ -239,6 +240,7 @@ export default {
   #login{
     position: relative;
     height: 100vh;
+    overflow: hidden;
     .login-form{
       margin-top: 80px;
       padding: 80px 50px;
