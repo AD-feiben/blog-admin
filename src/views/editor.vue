@@ -38,6 +38,7 @@
             type="textarea"
             placeholder="请输入内容"
             resize="none"
+            @keydown.native="keydown"
             v-model="article.content">
             </el-input>
         </el-form-item>
@@ -177,6 +178,19 @@ export default {
         })
       })
     },
+    keydown (e) {
+      if (e.keyCode === 83 && (window.navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {
+        e.preventDefault()
+        if (this.forbidInput) {
+          this.$message({
+            message: '普通账号不允许修改文章',
+            type: 'error'
+          })
+        } else {
+          this.saveArticle()
+        }
+      }
+    },
     saveArticle (state) {
       let valid1 = false
       let valid2 = false
@@ -192,22 +206,31 @@ export default {
       })
       setTimeout(() => {
         if (valid1 && valid2 && valid3) {
-          this.$confirm(`是否${state ? this.saveText : '存草稿'}?`).then(() => {
-            let req = this.article
-            req.desc = this.$refs.preview.innerText.substr(0, 50)
-            req.state = state
-            req.id = this.id
-            this.$axiosPosting(this.$api.saveArticle, req).then(res => {
-              if (res.code === 200) {
-                this.$message.success(res.message)
-                this.resetArticle()
-              } else {
-                this.$message.error(res.message)
-              }
-            })
-          })
+          if (!this.id || state) {
+            this.$confirm(`是否${state ? this.saveText : '存草稿'}?`)
+              .then(() => { this.submitData(state, false) })
+          } else {
+            this.submitData(null, true)
+          }
         }
       }, 0)
+    },
+    submitData (state, retentionData) {
+      let req = this.article
+      req.desc = this.$refs.preview.innerText.substr(0, 50)
+      req.state = state || 0
+      req.id = this.id
+      this.$axiosPosting(this.$api.saveArticle, req).then(res => {
+        if (res.code === 200) {
+          this.$message.success(res.message)
+          !retentionData && this.resetArticle()
+        } else {
+          this.$message({
+            message: res.message,
+            type: 'error'
+          })
+        }
+      })
     },
     getClassify () {
       this.$axiosGeting(this.$api.classify).then(res => {
@@ -235,7 +258,10 @@ export default {
           this.article.state = res.data.state || ''
           this.article.content = res.data.content || ''
         } else {
-          this.$message.error(res.message)
+          this.$message({
+            message: res.message,
+            type: 'error'
+          })
         }
       })
     }
