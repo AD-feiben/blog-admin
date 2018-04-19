@@ -223,12 +223,14 @@ export default {
   mounted () {
     this.$nextTick(() => {
       /* eslint-disable no-new */
-      new Parallax(this.$refs.bg)
-      let icons = this.$refs.icon
-      for (let i in icons) {
-        icons[i].style.display = 'inline-block'
-        icons[i].style.top = this.random() + 'px'
-        icons[i].style.left = this.random() + 'px'
+      if (this.showBg) {
+        new Parallax(this.$refs.bg)
+        let icons = this.$refs.icon
+        for (let i in icons) {
+          icons[i].style.display = 'inline-block'
+          icons[i].style.top = this.random() + 'px'
+          icons[i].style.left = this.random() + 'px'
+        }
       }
     })
   }
