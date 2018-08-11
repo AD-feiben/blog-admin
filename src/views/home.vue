@@ -3,6 +3,12 @@
     <el-container style="height: 80px;">
       <el-header style="height: 80px;">
         <logo></logo>
+        <div id="account">
+          <el-tooltip placement="bottom" v-if="account">
+            <div class="exit" slot="content" @click="exit">退出</div>
+            <p>{{account}}</p>
+          </el-tooltip>
+        </div>
       </el-header>
     </el-container>
     <el-container style="height: calc(100% - 80px);">
@@ -45,6 +51,7 @@ export default {
   },
   data () {
     return {
+      account: '', // 用户名
       showRightArrow: false,
       defaultActive: '',
       menu: [
@@ -81,9 +88,16 @@ export default {
       if (document.body.clientWidth <= 900) {
         this.showRightArrow = true
       }
+    },
+    exit () {
+      this.$confirm('是否确定退出').then(_ => {
+        window.sessionStorage.clear()
+        this.$router.replace('/login')
+      })
     }
   },
   mounted () {
+    this.account = window.sessionStorage.getItem('account') || ''
     this.defaultActive = this.$route.path
     this.showRightArrow = document.body.clientWidth <= 900
     window.onresize = () => {
@@ -123,6 +137,18 @@ export default {
     }
     .fa-arrow-right{
       transition: transform .3s;
+    }
+    #account{
+      float: right;
+      padding: 30px 0;
+      font-size: 18px;
+      color: @baseColor;
+    }
+  }
+  .el-tooltip__popper .exit{
+    cursor: pointer;
+    &:hover{
+      text-decoration: underline;
     }
   }
 </style>

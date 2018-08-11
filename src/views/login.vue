@@ -174,6 +174,7 @@ export default {
             if (res.code === 200) {
               window.sessionStorage.setItem('token', res.data.token)
               window.sessionStorage.setItem('role', res.data.role)
+              window.sessionStorage.setItem('account', this.user.account)
               this.$router.replace('/')
             } else {
               this.$message({
