@@ -112,7 +112,7 @@ export default {
 <style lang="less">
   @import '../styles/var.less';
   #home{
-    height: 100vh;
+    min-height: 100vh;
     .el-aside{
       transition: width .5s;
     }
