@@ -11,7 +11,7 @@
         </div>
       </el-header>
     </el-container>
-    <el-container style="height: calc(100vh - 80px);">
+    <el-container style="min-height: calc(100vh - 80px);">
       <el-aside :style="{width: showRightArrow ? '0px' : '240px'}" ref="aside">
         <el-menu
           unique-opened
