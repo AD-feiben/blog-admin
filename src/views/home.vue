@@ -11,7 +11,7 @@
         </div>
       </el-header>
     </el-container>
-    <el-container style="height: calc(100% - 80px);">
+    <el-container style="height: calc(100vh - 80px);">
       <el-aside :style="{width: showRightArrow ? '0px' : '240px'}" ref="aside">
         <el-menu
           unique-opened
@@ -112,7 +112,6 @@ export default {
 <style lang="less">
   @import '../styles/var.less';
   #home{
-    min-height: 100vh;
     .el-aside{
       transition: width .5s;
     }
