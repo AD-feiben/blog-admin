@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === 'development') {
   baseURL = 'http://172.16.30.128:3000/'
 } else {
   // 正式环境
-  baseURL = 'http://202.5.16.37:3000'
+  baseURL = 'http://feiben.xyz/api/'
 }
 
 export {
